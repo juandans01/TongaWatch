@@ -1,0 +1,212 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>TongaWatch</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+        <style type="text/css">
+
+            .demo-content{
+                padding: 15px;
+                font-size: 18px;
+                background: #dbdfe5;
+                margin-bottom: 10px;
+                min-height: 300px;
+
+            }
+            .demo-content.bg-alt{
+                background: #abb1b8;
+            }
+
+            .nested-row{
+                font-size: 18px;
+                background: #abb1b8;
+                padding: 15px;
+                margin-bottom: 10px;
+                height: 75px;
+            }
+
+            .nested-col{
+                background-color: palegreen;
+                margin: 10px;
+                width: 45%;
+            }
+
+            .btn-colors{
+                color: #fff;
+                background-color: #008080;
+                border-color: black;
+            }
+            .btn-title{
+                width: 90%;
+                height: 34px;
+                text-align:center;
+                align-items: center;
+                font-size: 15px;
+
+            }
+            #div-title{
+                margin-top: 20px;
+            }
+            #inputId{
+
+                font-size: 20px;
+
+                color: lightgray;
+            }
+        </style>
+
+
+    </head>
+    <body>
+
+        <nav id="myNavbar" class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+            <a class="navbar-brand" href="#">TongaWatch</a>
+        </nav>
+
+
+        <div class="container-fluid">
+
+            <div class="jumbotron">
+
+                <!-- ID  -->
+
+                <div class="row nested-row" id="div-title">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="inputId" onclick="focusTextId()" placeholder="Enter id">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="btn btn-colors btn-title" onclick="getProfile()">Search</div>
+                    </div>
+                </div>
+
+                <!-- DROPDOWN BOXES -->
+
+                <div class="row nested-row">
+                    <div class="col-xs-1">
+
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="btnregion">Region
+                            <span class="caret"/></button>
+                            <ul class="dropdown-menu" id="region">
+                                <li><a href="#">EU</a></li>
+                                <li><a href="#">US</a></li>
+                                <li><a href="#">KR</a></li>
+                                <li><a href="#">CN</a></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="col-xs-1">
+
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="btnplatform">Platform
+                            <span class="caret"/></button>
+                            <ul class="dropdown-menu" id="platform">
+                                <li><a href="#">PC</a></li>
+                                <li><a href="#">PSN</a></li>
+                                <li><a href="#">XBL</a></li>
+
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ANOTACION: target="_blank" abre el html en otra ventana-->
+
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="demo-content">.col-sm-3</div>
+                </div>
+                <div class="col-sm-9">
+                    <div class="demo-content" id="main">
+                        <div class="row nested-row">
+                            <div class="col-sm-3 nested-col" id="divAvatar"></div>
+                            <div class="col-sm-3 nested-col" id="divId"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <script type="text/javascript">
+
+            //Declaracion de variables
+            var id;
+            var region;
+            var platform;
+            //Declaracion de variables
+
+
+            function focusTextId(){
+                //Mejorar cuando empiece con JQuery
+                $("#inputId").css({"color":"black","fontStyle":"normal"});
+                $("#inputId").val="";
+
+            }
+
+            function getProfile(){
+
+                id=document.getElementById("inputId").value ;
+                region=document.getElementById("btnregion").textContent;
+                platform=document.getElementById("btnplatform").textContent;
+                var url = `https://api.lootbox.eu/${platform.toLocaleLowerCase()}/${region.toLowerCase()}/${id}/profile`;
+                var data;
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    contentType: 'application/json',
+                    success:  function(successData){
+                       beautifyProfile(successData);
+                    },
+                    error : function(err){
+                        console.log("SUPER ERROR");
+                    }
+
+                });
+
+
+
+
+            }
+
+            function beautifyProfile(successData){
+                var avatar= $("<img />",{"src":successData.data.avatar});
+                $("#divAvatar").append(avatar);
+
+                var user=$("<p></p>").text(successData.data.username.toUpperCase());
+                user.css({"font-size":"30px","font-style":"italic"});
+                $("#divId").append(user);
+            }
+
+            $("#platform li a").click(function(){
+                $("#btnplatform:first-child").text($(this).text());
+                $("#btnplatform:first-child").val($(this).val());
+
+            });
+
+            $("#region li a").click(function(){
+                $("#btnregion:first-child").text($(this).text());
+                $("#btnregion:first-child").val($(this).val());
+
+            });
+
+
+        </script>
+
+    </body>
+</html>
