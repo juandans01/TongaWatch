@@ -166,8 +166,19 @@
                            <p>PLAYED HOURS</p>
                         </div>
                         <div class="row nested-row">
-                            <div class="col-sm-5 data-block" id="quick-time"><p>quick time:</p></div>
+                            <div class="col-sm-5 data-block" id="quick-time"><p>quick time:</p>
+                            </div>
                             <div class="col-sm-5 data-block" id="competitive-time"><p>competitive time:</p></div>
+                        </div>
+                        <div class="row title-row subtitle-row">
+                            <p>COMPETITIVE</p>
+                        </div>
+                        <div class="row nested-row">
+                            <div class="col-sm-5 data-block" id="rank"></div>
+                            <div class="col-sm-5 data-block" id="rank-img"></div>
+                        </div>
+                        <div class="row nested-row">
+                        
                         </div>
                     </div>
                 </div>
@@ -230,6 +241,12 @@
                 
                 var compHours=$("<p></p>").text(successData.data.playtime.competitive.toUpperCase());
                 $("#competitive-time").append(compHours);
+                
+                var rank=$("<p></p>").text(successData.data.competitive.rank);
+                $("#rank").append(rank);
+                
+                var rankImg=$("<img />",{"src":successData.data.competitive.rank_img});
+                $("#rank-img").append(rankImg);
                 
             }
 
