@@ -30,6 +30,7 @@
                 padding: 15px;
                 margin-bottom: 10px;
                 height: 75px;
+                
             }
 
             .nested-col{
@@ -53,13 +54,23 @@
             }
             
             .data-block{
-                margin-left: 30px;
-                background-color: darkgoldenrod;
+                margin-left: 20px;
+                background-color: #E3D21E;
+                display: flex;
             }
             .title-row{
-                min-height: 40px;;
-                background-color: blueviolet;
+                min-height: 45px;
+                background-color: palevioletred;
+                margin-bottom: 10px;
+                display: flex;    
+                
             }
+            .subtitle-row{
+                margin-left: 20px;
+            }
+            
+            
+            /* EMPIEZA POR ID */
             
             #div-title{
                 margin-top: 20px;
@@ -147,14 +158,16 @@
                 </div>
                 <div class="col-sm-9">
                     <div class="demo-content" id="main">
-                        <div class="row nested-row">
+                        <div class="row title-row">
                             <div class="col-sm-3 nested-col" id="divAvatar"></div>
                             <div class="col-sm-3 nested-col" id="divId"></div>
                         </div>
-                        <div class="row title-row">ahsbdjhabsdbasbdaskbh</div>
+                        <div class="row title-row subtitle-row">
+                           <p>PLAYED HOURS</p>
+                        </div>
                         <div class="row nested-row">
-                            <div class="col-sm-5 data-block">ashdbashcbhadb cjhsdukcnaqjhsc sghbcukabegh</div>
-                            <div class="col-sm-5 data-block">ashdbashcbhadb cjhsdukcnaqjhsc sghbcukabegh</div>
+                            <div class="col-sm-5 data-block" id="quick-time"><p>quick time:</p></div>
+                            <div class="col-sm-5 data-block" id="competitive-time"><p>competitive time:</p></div>
                         </div>
                     </div>
                 </div>
@@ -173,7 +186,7 @@
 
 
             function focusTextId(){
-                //Mejorar cuando empiece con JQuery
+                
                 $("#inputId").css({"color":"black","fontStyle":"normal"});
                 $("#inputId").val="";
 
@@ -191,7 +204,7 @@
                     type: 'GET',
                     contentType: 'application/json',
                     success:  function(successData){
-                       beautifyProfile(successData);
+                       insertProfileData(successData);
                     },
                     error : function(err){
                         console.log("SUPER ERROR");
@@ -204,13 +217,20 @@
 
             }
 
-            function beautifyProfile(successData){
+            function insertProfileData(successData){
                 var avatar= $("<img />",{"src":successData.data.avatar});
                 $("#divAvatar").append(avatar);
 
                 var user=$("<p></p>").text(successData.data.username.toUpperCase());
                 user.css({"font-size":"30px","font-style":"italic"});
                 $("#divId").append(user);
+                
+                var quickHours=$("<p></p>").text(successData.data.playtime.quick.toUpperCase());
+                $("#quick-time").append(quickHours);
+                
+                var compHours=$("<p></p>").text(successData.data.playtime.competitive.toUpperCase());
+                $("#competitive-time").append(compHours);
+                
             }
 
             $("#platform li a").click(function(){
