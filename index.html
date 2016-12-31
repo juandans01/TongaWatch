@@ -80,6 +80,7 @@
                 font-size: 20px;
                 color: lightgray;
             }
+
         </style>
 
 
@@ -175,10 +176,17 @@
                         </div>
                         <div class="row nested-row">
                             <div class="col-sm-5 data-block" id="rank"></div>
-                            <div class="col-sm-5 data-block" id="rank-img"></div>
                         </div>
                         <div class="row nested-row">
-                        
+                            <div class="col-sm-3 data-block" id="compW"><p>Wins:</p></div>
+                            <div class="col-sm-3 data-block" id="compL"><p>Lost:</p></div>
+                            <div class="col-sm-3 data-block" id="compP"><p>Played:</p></div>
+                        </div>
+                        <div class="row title-row subtitle-row">
+                            <p>QUICK</p>
+                        </div>
+                        <div class="row nested-row">
+                            <div class="col-sm-3 data-block" id="quickW"><p>Wins:</p></div>
                         </div>
                     </div>
                 </div>
@@ -229,8 +237,10 @@
             }
 
             function insertProfileData(successData){
+
                 var avatar= $("<img />",{"src":successData.data.avatar});
                 $("#divAvatar").append(avatar);
+
 
                 var user=$("<p></p>").text(successData.data.username.toUpperCase());
                 user.css({"font-size":"30px","font-style":"italic"});
@@ -242,11 +252,24 @@
                 var compHours=$("<p></p>").text(successData.data.playtime.competitive.toUpperCase());
                 $("#competitive-time").append(compHours);
                 
+                var rankImg=$("<img />",{"src":successData.data.competitive.rank_img});
+                rankImg.css({"width":"35px","height":"35px"});
+                $("#rank").append(rankImg);
+
                 var rank=$("<p></p>").text(successData.data.competitive.rank);
                 $("#rank").append(rank);
                 
-                var rankImg=$("<img />",{"src":successData.data.competitive.rank_img});
-                $("#rank-img").append(rankImg);
+                var compW=$("<p></p>").text(successData.data.games.competitive.wins);
+                $("#compW").append(compW);
+
+                var compL=$("<p></p>").text(successData.data.games.competitive.lost);
+                $("#compL").append(compL);
+
+                var compP=$("<p></p>").text(successData.data.games.competitive.played);
+                $("#compP").append(compP);
+
+                var quickW=$("<p></p>").text(successData.data.games.quick.wins);
+                $("#quickW").append(quickW);
                 
             }
 
