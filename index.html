@@ -7,6 +7,8 @@
         <title>TongaWatch</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Unica+One" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Rambla:700i" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
@@ -28,13 +30,13 @@
                 font-size: 18px;
                 background: #abb1b8;
                 padding: 15px;
+                padding-left: 25px;
                 margin-bottom: 10px;
                 height: 75px;
                 
             }
 
             .nested-col{
-                background-color: palegreen;
                 margin: 10px;
                 width: 45%;
             }
@@ -55,18 +57,23 @@
             
             .data-block{
                 margin-left: 20px;
-                background-color: #E3D21E;
+                font-family: "Rambla";
                 display: flex;
             }
             .title-row{
                 min-height: 45px;
-                background-color: palevioletred;
                 margin-bottom: 10px;
                 display: flex;    
                 
             }
             .subtitle-row{
                 margin-left: 20px;
+                font-family: "Rambla";
+            }
+            .btn-style{
+                display: inline;
+                float: left;
+                margin-right: 20px;
             }
             
             
@@ -79,6 +86,19 @@
 
                 font-size: 20px;
                 color: lightgray;
+            }
+            #myNavbar{
+                font-family: "Rambla";
+            }
+            #rank{
+                font-size: 27.5px;
+            }
+            #divAvatar{
+                max-width: 120px;
+            }
+            #divTitleData{
+                margin-left: 30px;
+                min-width: 300px;
             }
 
         </style>
@@ -118,7 +138,7 @@
                 <!-- DROPDOWN BOXES -->
 
                 <div class="row nested-row">
-                    <div class="col-xs-1">
+                    <div class="btn-style">
 
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="btnregion">Region
@@ -132,7 +152,7 @@
                         </div>
 
                     </div>
-                    <div class="col-xs-1">
+                    <div class="btn-style">
 
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown" id="btnplatform">Platform
@@ -154,22 +174,33 @@
 
             <!-- MAIN WINDOW -->
             <div class="row">
-                <div class="col-sm-3">
-                    <div class="demo-content">.col-sm-3</div>
+                <div class="col-sm-2">
+                    <div class="demo-content">
+                        <p>Modo 1</p>
+                        <p>Modo 2</p>
+                        <p>Modo 3</p>
+                        <p>Modo 4</p>
+                    </div>
                 </div>
-                <div class="col-sm-9">
+                <div class="col-sm-10">
                     <div class="demo-content" id="main">
                         <div class="row title-row">
-                            <div class="col-sm-3 nested-col" id="divAvatar"></div>
-                            <div class="col-sm-3 nested-col" id="divId"></div>
+                            <div class="col-sm-1 nested-col" id="divAvatar"></div>
+                            <div class="col-sm-1" id="divTitleData">
+                                <div class="row">
+                                    <div class="col-sm-2 nested-col" id="divId"></div>
+                                    <div class="col-sm-2 nested-col" id="divLevel"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-8"></div>
                         </div>
                         <div class="row title-row subtitle-row">
                            <p>PLAYED HOURS</p>
                         </div>
                         <div class="row nested-row">
-                            <div class="col-sm-5 data-block" id="quick-time"><p>quick time:</p>
+                            <div class="col-sm-5 data-block" id="quick-time"><p>Quick time:</p>
                             </div>
-                            <div class="col-sm-5 data-block" id="competitive-time"><p>competitive time:</p></div>
+                            <div class="col-sm-5 data-block" id="competitive-time"><p>Competitive time:</p></div>
                         </div>
                         <div class="row title-row subtitle-row">
                             <p>COMPETITIVE</p>
@@ -202,6 +233,11 @@
             var region;
             var platform;
             //Declaracion de variables
+
+
+            //Al principio
+
+            //Al principio
 
 
             function focusTextId(){
@@ -241,11 +277,14 @@
                 var avatar= $("<img />",{"src":successData.data.avatar});
                 $("#divAvatar").append(avatar);
 
-
                 var user=$("<p></p>").text(successData.data.username.toUpperCase());
-                user.css({"font-size":"30px","font-style":"italic"});
+                user.css({"font-size":"30px","font-style":"italic","font-family":"Unica one"});
                 $("#divId").append(user);
                 
+                var level=$("<p></p>").text("Level "+successData.data.level);
+                level.css({"font-size":"30px","font-style":"italic","font-family":"Unica one"});
+                $("#divLevel").append(level);
+
                 var quickHours=$("<p></p>").text(successData.data.playtime.quick.toUpperCase());
                 $("#quick-time").append(quickHours);
                 
@@ -282,6 +321,8 @@
             $("#region li a").click(function(){
                 $("#btnregion:first-child").text($(this).text());
                 $("#btnregion:first-child").val($(this).val());
+
+
 
             });
 
